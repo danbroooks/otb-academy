@@ -27,7 +27,6 @@ describe Shop do
       end
 
       it 'allows you to purchase multiple books and applies a discount' do
-        skip
         expect(subject.buy([2, 2, 2, 1, 1])).to eq 51.20
       end
     end
