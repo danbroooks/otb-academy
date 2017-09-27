@@ -15,21 +15,31 @@ describe Shop do
       end
     end
 
-    context 'two books' do
-
+    context 'multiple books' do
       it 'allows you to purchase a second book' do
-        expect(subject.buy([1, 2])).to eq 24
+        expect(subject.buy([1, 2])).to eq 23.2
+        expect(subject.buy([1, 1, 1])).to eq 21.60
+        expect(subject.buy([1, 1, 1, 1])).to eq 25.60
+        expect(subject.buy([1, 1, 1, 1, 1])).to eq 30.00
+        expect(subject.buy([2, 0, 0, 0, 0])).to eq 16.00
+        expect(subject.buy([2, 1, 0])).to eq 23.20
+        expect(subject.buy([2, 1, 1])).to eq 29.60
+      end
+
+      it 'allows you to purchase multiple books and applies a discount' do
+        skip
+        expect(subject.buy([2, 2, 2, 1, 1])).to eq 51.20
       end
     end
   end
 
   describe 'discount' do
     it 'allows you to get a discount for your books' do
-      expect(subject.discount([0, 1, 0, 0, 0])).to eq(0)
-      expect(subject.discount([1, 1, 0, 0, 0])).to eq(5)
-      expect(subject.discount([1, 1, 0, 1, 0])).to eq(10)
-      expect(subject.discount([1, 1, 1, 1, 0])).to eq(20)
-      expect(subject.discount([1, 1, 1, 1, 1])).to eq(25)
+      expect(subject.discount(1)).to eq(0)
+      expect(subject.discount(2)).to eq(5)
+      expect(subject.discount(3)).to eq(10)
+      expect(subject.discount(4)).to eq(20)
+      expect(subject.discount(5)).to eq(25)
     end
   end
 end
