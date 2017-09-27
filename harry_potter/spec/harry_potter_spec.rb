@@ -25,10 +25,11 @@ describe Shop do
 
   describe 'discount' do
     it 'allows you to get a discount for your books' do
-      expect(subject.discount(2)).to eq(5)
-      expect(subject.discount(3)).to eq(10)
-      expect(subject.discount(4)).to eq(20)
-      expect(subject.discount(5)).to eq(25)
+      expect(subject.discount([0, 1, 0, 0, 0])).to eq(0)
+      expect(subject.discount([1, 1, 0, 0, 0])).to eq(5)
+      expect(subject.discount([1, 1, 0, 1, 0])).to eq(10)
+      expect(subject.discount([1, 1, 1, 1, 0])).to eq(20)
+      expect(subject.discount([1, 1, 1, 1, 1])).to eq(25)
     end
   end
 end

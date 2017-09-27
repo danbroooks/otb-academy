@@ -11,8 +11,9 @@ class Shop
     8 * (@basket.sum)
   end
 
-  def discount(number)
-    DISCOUNT_HASH[number]
+  def discount(books)
+    amount = books.reject { |n| n == 0 }.size
+    DISCOUNT_HASH.fetch(amount, 0)
   end
 
 end
