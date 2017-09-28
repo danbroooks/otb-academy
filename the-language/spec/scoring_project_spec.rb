@@ -28,10 +28,40 @@
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  dice.group_by { |x| x }
+    .map { |k, v| [k, v.length] }
+    .inject(0) { |sum, (num, occurences)| sum + perform_scoring(num, occurences) }
 end
 
-RSpec.describe "scorign a game of greed" do
+def perform_scoring(num, occurences)
+  if occurences >= 3
+    score_trips(num) + perform_scoring(num, occurences % 3)
+  else
+    score_singles(num, occurences)
+  end
+end
+
+def score_singles(num, occurences)
+  if num == 1 || num == 5
+    occurences * num * multiplier(num)
+  else
+    0
+  end
+end
+
+def score_trips(num)
+  num * multiplier(num) * 10
+end
+
+def multiplier(num)
+  if num == 1
+    100
+  else
+    10
+  end
+end
+
+RSpec.describe "scoring a game of greed" do
   it "scores an empty list as 0" do
     expect( score([]) ).to eq( 0 )
   end
