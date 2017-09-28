@@ -19,11 +19,7 @@ class Shop
   end
 
   def deduct_each_n(books, n)
-    deduct_each(books.take(n)).concat(books.drop(n))
-  end
-
-  def deduct_each(ns)
-    ns.map { |n| n - 1 }
+    books.take(n).map { |n| n - 1 }.concat(books.drop(n))
   end
 
   def cost(number)
