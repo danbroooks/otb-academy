@@ -27,35 +27,25 @@ class LCD
   end
 
   def left(line, num, scale)
-    if line == scale && NUM_TO_LCD[num][3] == 1
-      v(true)
-    elsif line == scale * 2 && NUM_TO_LCD[num][5] == 1
-      v(true)
-    else
-      v(false)
-    end
+    v(line != 0 && [
+      (line > scale) && NUM_TO_LCD[num][5] == 1,
+      (line <= scale) && NUM_TO_LCD[num][3] == 1,
+    ].any?)
   end
 
   def middle(line, num, scale)
-    if line == 0 && NUM_TO_LCD[num][0] == 1
-      h(true)
-    elsif line == scale && NUM_TO_LCD[num][1] == 1
-      h(true)
-    elsif line == scale * 2 && NUM_TO_LCD[num][2] == 1
-      h(true)
-    else
-      h(false)
-    end
+    h([
+      line == 0 && NUM_TO_LCD[num][0] == 1,
+      line == scale && NUM_TO_LCD[num][1] == 1,
+      line == scale * 2 && NUM_TO_LCD[num][2] == 1,
+    ].any?) * ((scale * 3) - 2)
   end
 
   def right(line, num, scale)
-    if line == scale && NUM_TO_LCD[num][4] == 1
-      v(true)
-    elsif line == scale * 2 && NUM_TO_LCD[num][6] == 1
-      v(true)
-    else
-      v(false)
-    end
+    v(line != 0 && [
+      (line > scale) && NUM_TO_LCD[num][6] == 1,
+      (line <= scale) && NUM_TO_LCD[num][4] == 1,
+    ].any?)
   end
 
   def h(on)
