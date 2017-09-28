@@ -7,15 +7,19 @@ class Shop
     return 0 if books.empty?
 
     less = [books.size - 1, 1].max
-    books1 = books.map { |n| n - 1 }
+    books1 = deduct_each(books)
     cost1 = cost(books.size) + buy(books1)
-    books2 = books.take(less).map { |n| n - 1 }.concat(books.drop(less))
+    books2 = deduct_each(books.take(less)).concat(books.drop(less))
     cost2 = cost(less) + buy(books2)
     [cost1,cost2].min
   end
 
   def discount(number)
     DISCOUNT_HASH.fetch(number, 0).to_f
+  end
+
+  def deduct_each(ns)
+    ns.map { |n| n - 1 }
   end
 
   def cost(number)
