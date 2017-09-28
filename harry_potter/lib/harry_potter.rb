@@ -7,15 +7,19 @@ class Shop
     return 0 if books.empty?
 
     less = [books.size - 1, 1].max
-    books1 = deduct_each(books)
+    books1 = deduct_each_n(books, books.size)
+    books2 = deduct_each_n(books, less)
     cost1 = cost(books.size) + buy(books1)
-    books2 = deduct_each(books.take(less)).concat(books.drop(less))
     cost2 = cost(less) + buy(books2)
     [cost1,cost2].min
   end
 
   def discount(number)
     DISCOUNT_HASH.fetch(number, 0).to_f
+  end
+
+  def deduct_each_n(books, n)
+    deduct_each(books.take(n)).concat(books.drop(n))
   end
 
   def deduct_each(ns)
