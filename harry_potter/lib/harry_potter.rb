@@ -2,17 +2,19 @@ class Shop
 
   def buy(books)
     books = books.reject { |n| n == 0 }
+
     return 0 if books.empty?
 
-    less = [books.size - 1, 1].max
-
-    [
-      cost(books.size) + buy(deduct_each_n(books, books.size)),
-      cost(less) + buy(deduct_each_n(books, less)),
-    ].min
+    possible_discounts(books.size).map do |n|
+      cost(n) + buy(deduct_each_n(books, n))
+    end.min
   end
 
   private
+
+  def possible_discounts(amount)
+    [amount, amount - 1].select { |_| _ > 0 }.uniq
+  end
 
   def discounts
     {
