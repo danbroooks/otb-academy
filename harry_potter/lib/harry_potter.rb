@@ -6,7 +6,8 @@ class Shop
     return 0 if books.empty?
 
     possible_discounts(books.size).map do |n|
-      cost(n) + buy(deduct_each_n(books, n))
+      deduct = books.take(n).map { |n| n - 1 }.concat(books.drop(n))
+      cost(n) + buy(deduct)
     end.min
   end
 
@@ -23,10 +24,6 @@ class Shop
       4 => 20,
       5 => 25
     }
-  end
-
-  def deduct_each_n(books, n)
-    books.take(n).map { |n| n - 1 }.concat(books.drop(n))
   end
 
   def cost(num)
