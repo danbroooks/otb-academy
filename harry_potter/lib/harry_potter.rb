@@ -1,14 +1,16 @@
 class Shop
 
   def buy(books, deduct = 0)
-    books = books.take(deduct).map { |_| _ - 1 }.concat(books.drop(deduct))
-    books = books.reject { |n| n == 0 }
+    books = books.take(deduct)
+      .map { |n| n - 1 }
+      .concat(books.drop(deduct))
+      .reject { |n| n == 0 }
 
     return 0 if books.empty?
 
-    possible_discounts(books.size).map do |n|
-      cost(n) + buy(books, n)
-    end.min
+    possible_discounts(books.size)
+      .map { |n| cost(n) + buy(books, n) }
+      .min
   end
 
   private
