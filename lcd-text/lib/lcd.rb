@@ -33,15 +33,19 @@ class LCD
     }.join("\n")
   end
 
+  def enabled?(digit, bar)
+    NUM_TO_LCD.fetch(digit)[bar] == 1
+  end
+
   def left(line, num)
     v(left_enabled?(line, num))
   end
 
   def left_enabled?(line, num)
     if line > scale
-      NUM_TO_LCD[num][5] == 1
+      enabled?(num, 5)
     elsif line > 0 && line <= scale
-      NUM_TO_LCD[num][3] == 1
+      enabled?(num, 3)
     else
       false
     end
@@ -53,11 +57,11 @@ class LCD
 
   def middle_enabled?(line, num)
     if line == 0
-      NUM_TO_LCD[num][0] == 1
+      enabled?(num, 0)
     elsif line == scale
-      NUM_TO_LCD[num][1] == 1
+      enabled?(num, 1)
     elsif line == (scale * 2)
-      NUM_TO_LCD[num][2] == 1
+      enabled?(num, 2)
     else
       false
     end
@@ -69,9 +73,9 @@ class LCD
 
   def right_enabled?(line, num)
     if line > scale
-      NUM_TO_LCD[num][6] == 1
+      enabled?(num, 6)
     elsif line > 0 && line <= scale
-      NUM_TO_LCD[num][4] == 1
+      enabled?(num, 4)
     else
       false
     end
