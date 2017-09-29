@@ -34,25 +34,37 @@ class LCD
   end
 
   def left(line, num)
-    v(line != 0 && [
+    v(left_enabled?(line, num))
+  end
+
+  def left_enabled?(line, num)
+    line != 0 && [
       (line > scale) && NUM_TO_LCD[num][5] == 1,
       (line <= scale) && NUM_TO_LCD[num][3] == 1,
-    ].any?)
+    ].any?
   end
 
   def middle(line, num)
-    h([
+    h(middle_enabled?(line, num)) * ((scale * 3) - 2)
+  end
+
+  def middle_enabled?(line, num)
+    [
       line == 0 && NUM_TO_LCD[num][0] == 1,
       line == scale && NUM_TO_LCD[num][1] == 1,
       line == scale * 2 && NUM_TO_LCD[num][2] == 1,
-    ].any?) * ((scale * 3) - 2)
+    ].any?
   end
 
   def right(line, num)
-    v(line != 0 && [
+    v(right_enabled?(line, num))
+  end
+
+  def right_enabled?(line, num)
+    line != 0 && [
       (line > scale) && NUM_TO_LCD[num][6] == 1,
       (line <= scale) && NUM_TO_LCD[num][4] == 1,
-    ].any?)
+    ].any?
   end
 
   def h(on)
