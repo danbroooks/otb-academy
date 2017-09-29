@@ -38,10 +38,13 @@ class LCD
   end
 
   def left_enabled?(line, num)
-    line != 0 && [
-      (line > scale) && NUM_TO_LCD[num][5] == 1,
-      (line <= scale) && NUM_TO_LCD[num][3] == 1,
-    ].any?
+    if line > scale
+      NUM_TO_LCD[num][5] == 1
+    elsif line > 0 && line <= scale
+      NUM_TO_LCD[num][3] == 1
+    else
+      false
+    end
   end
 
   def middle(line, num)
@@ -49,11 +52,15 @@ class LCD
   end
 
   def middle_enabled?(line, num)
-    [
-      line == 0 && NUM_TO_LCD[num][0] == 1,
-      line == scale && NUM_TO_LCD[num][1] == 1,
-      line == scale * 2 && NUM_TO_LCD[num][2] == 1,
-    ].any?
+    if line == 0
+      NUM_TO_LCD[num][0] == 1
+    elsif line == scale
+      NUM_TO_LCD[num][1] == 1
+    elsif line == (scale * 2)
+      NUM_TO_LCD[num][2] == 1
+    else
+      false
+    end
   end
 
   def right(line, num)
@@ -61,10 +68,13 @@ class LCD
   end
 
   def right_enabled?(line, num)
-    line != 0 && [
-      (line > scale) && NUM_TO_LCD[num][6] == 1,
-      (line <= scale) && NUM_TO_LCD[num][4] == 1,
-    ].any?
+    if line > scale
+      NUM_TO_LCD[num][6] == 1
+    elsif line > 0 && line <= scale
+      NUM_TO_LCD[num][4] == 1
+    else
+      false
+    end
   end
 
   def h(on)
