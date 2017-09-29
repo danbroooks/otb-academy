@@ -1,5 +1,7 @@
 class LCD
 
+  attr_reader :scale
+
   NUM_TO_LCD = {
     "0" => ([1, 0, 1, 1, 1, 1, 1 ]),
     "1" => ([0, 0, 0, 0, 1, 0, 1 ]),
@@ -13,27 +15,32 @@ class LCD
     "9" => ([1, 1, 1, 1, 1, 0, 1 ]),
   }
 
-  def convert(num, scale = 1)
+  def initialize(scale = 1)
+    @scale = scale
+  end
+
+  def convert(num)
     split_nums = num.split("")
+
     (0..2 * scale).map { |line|
       split_nums.map { |num|
         [
-          left(line, num, scale),
-          middle(line, num, scale),
-          right(line, num, scale),
-        ].join
-      }.join
+          left(line, num),
+          middle(line, num),
+          right(line, num),
+        ]
+      }.flatten.join
     }.join("\n")
   end
 
-  def left(line, num, scale)
+  def left(line, num)
     v(line != 0 && [
       (line > scale) && NUM_TO_LCD[num][5] == 1,
       (line <= scale) && NUM_TO_LCD[num][3] == 1,
     ].any?)
   end
 
-  def middle(line, num, scale)
+  def middle(line, num)
     h([
       line == 0 && NUM_TO_LCD[num][0] == 1,
       line == scale && NUM_TO_LCD[num][1] == 1,
@@ -41,7 +48,7 @@ class LCD
     ].any?) * ((scale * 3) - 2)
   end
 
-  def right(line, num, scale)
+  def right(line, num)
     v(line != 0 && [
       (line > scale) && NUM_TO_LCD[num][6] == 1,
       (line <= scale) && NUM_TO_LCD[num][4] == 1,

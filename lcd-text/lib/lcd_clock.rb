@@ -6,7 +6,7 @@ class Clock
     Thread.new do
       loop do
         system "clear"
-        print LCD.new.convert(Time.now.strftime("%H:%M:%S"))
+        print LCD.new(5).convert(Time.now.strftime("%H%M%S"))
         sleep 1
       end
     end

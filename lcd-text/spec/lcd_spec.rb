@@ -29,8 +29,9 @@ describe LCD do
     end
 
     context "x2 scale" do
+      subject { LCD.new(2) }
       it "can print all the digits" do
-        expect(subject.convert("0123456789", 2)).to eq([
+        expect(subject.convert("0123456789")).to eq([
           ' ____        ____  ____        ____  ____  ____  ____  ____ ',
           '|    |     |     |     ||    ||     |          ||    ||    |',
           '|    |     | ____| ____||____||____ |____      ||____||____|',
