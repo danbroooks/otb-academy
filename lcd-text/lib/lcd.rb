@@ -1,5 +1,4 @@
 class LCD
-
   attr_reader :scale
 
   NUM_TO_LCD = {
@@ -21,24 +20,25 @@ class LCD
 
   def convert(num)
     split_nums = num.split("")
+    lines.map { |line| render_digits(line, split_nums) }.join("\n")
+  end
 
-    (0..2 * scale).map { |line|
-      split_nums.map { |num|
-        [
-          left(line, num),
-          middle(line, num),
-          right(line, num),
-        ]
-      }.flatten.join
-    }.join("\n")
+  def lines
+    (0..(2 * scale))
+  end
+
+  def render_digits(line, split_nums)
+    split_nums.map { |num|
+      [
+        v_bar(left_enabled?(line, num)),
+        h_bar(middle_enabled?(line, num)) * ((scale * 3) - 2),
+        v_bar(right_enabled?(line, num)),
+      ]
+    }.flatten.join
   end
 
   def enabled?(digit, bar)
     NUM_TO_LCD.fetch(digit)[bar] == 1
-  end
-
-  def left(line, num)
-    v(left_enabled?(line, num))
   end
 
   def left_enabled?(line, num)
@@ -49,10 +49,6 @@ class LCD
     else
       false
     end
-  end
-
-  def middle(line, num)
-    h(middle_enabled?(line, num)) * ((scale * 3) - 2)
   end
 
   def middle_enabled?(line, num)
@@ -67,10 +63,6 @@ class LCD
     end
   end
 
-  def right(line, num)
-    v(right_enabled?(line, num))
-  end
-
   def right_enabled?(line, num)
     if line > scale
       enabled?(num, 6)
@@ -81,7 +73,7 @@ class LCD
     end
   end
 
-  def h(on)
+  def h_bar(on)
     if on
       '_'
     else
@@ -89,7 +81,7 @@ class LCD
     end
   end
 
-  def v(on)
+  def v_bar(on)
     if on
       '|'
     else
